@@ -1,2 +1,3 @@
 Hello DevOps
 New feature added
+Conflicting change from feature1 branch
