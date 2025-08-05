@@ -1,7 +1,0 @@
-Hello DevOps
-New feature added
-
-Change from main branch
-
-Conflicting change from feature1 branch
-
