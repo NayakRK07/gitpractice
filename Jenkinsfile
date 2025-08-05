@@ -13,26 +13,35 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh 'echo "Building project..."'
-            }
-        }
-
         stage('Docker Build & Push') {
             steps {
                 sh '''
                 echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
                 docker build -t $IMAGE_NAME:$BUILD_NUMBER .
                 docker push $IMAGE_NAME:$BUILD_NUMBER
+                docker tag $IMAGE_NAME:$BUILD_NUMBER $IMAGE_NAME:latest
+                docker push $IMAGE_NAME:latest
                 '''
             }
         }
 
-        stage('Deploy (Optional)') {
+        stage('Deploy with Docker Compose') {
             steps {
                 sh '''
-                echo "Deploy step here - could be docker run or kubectl apply"
+                echo "Deploying using docker-compose from repo..."
+
+                # Stop apache to free port 80
+                sudo systemctl stop apache2 || true
+                sudo systemctl disable apache2 || true
+
+                # Stop and remove any old containers
+                docker compose down || true
+
+                # Pull the latest image from Docker Hub
+                docker compose pull
+
+                # Start new container(s)
+                docker compose up -d
                 '''
             }
         }
@@ -40,10 +49,10 @@ pipeline {
 
     post {
         success {
-            echo "Build and Push Successful!"
+            echo "Build, Push & Deploy Successful!"
         }
         failure {
-            echo "Build Failed!"
+            echo "Pipeline Failed!"
         }
     }
 }

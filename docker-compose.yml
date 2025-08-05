@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  devops-portfolio:
+    image: rahulnumo/devops-portfolio:latest
+    container_name: devops-portfolio
+    ports:
+      - "80:80"
+    restart: always
