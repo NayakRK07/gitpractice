@@ -30,9 +30,7 @@ pipeline {
                 sh '''
                 echo "Deploying using docker-compose from repo..."
 
-                # Stop apache to free port 80
-                sudo systemctl stop apache2 || true
-                sudo systemctl disable apache2 || true
+
 
                 # Stop and remove any old containers
                 docker compose down || true
