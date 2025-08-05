@@ -32,13 +32,13 @@ pipeline {
 
 
                 # Stop and remove any old containers
-                docker compose down || true
+                docker-compose down || true
 
                 # Pull the latest image from Docker Hub
-                docker compose pull
+                docker-compose pull
 
                 # Start new container(s)
-                docker compose up -d
+                docker-compose up -d
                 '''
             }
         }
