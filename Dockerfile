@@ -9,9 +9,6 @@ RUN chown -R www-data:www-data /var/www/html
 # Enable SSL + rewrite modules
 RUN a2enmod ssl && a2enmod rewrite
 
-# Copy SSL certs
-COPY ./certs/selfsigned.crt /etc/ssl/certs/selfsigned.crt
-COPY ./certs/selfsigned.key /etc/ssl/private/selfsigned.key
 
 # Copy Apache SSL config
 COPY ./ssl.conf /etc/apache2/sites-available/ssl.conf

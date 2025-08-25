@@ -1,11 +1,11 @@
 version: "3.8"
+
 services:
   web:
-    build: .
+    image: rahulnumo/devops-portfolio:latest
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./DevOps-Portfolio-master:/var/www/html
-      - ./certs:/etc/ssl
-
+      - ./certs/selfsigned.crt:/etc/ssl/certs/selfsigned.crt:ro
+      - ./certs/selfsigned.key:/etc/ssl/private/selfsigned.key:ro
